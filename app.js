@@ -9,10 +9,16 @@ var server = app.listen(80, function(){
 
 var io = socket.listen(server);
 
+app.set('io',io);
+
 io.on('connect',function(socket){
     console.log("Usuário conectado")
 
     socket.on('disconnect',function(){
         console.log("Desconectado")
+    })
+
+    socket.on('teste',function(test){
+        console.log(test);
     })
 })

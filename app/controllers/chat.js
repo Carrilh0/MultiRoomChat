@@ -10,6 +10,8 @@ module.exports.iniciaChat = function(application,req,res){
         res.render('index', {validacao : erros});
         return;
     }
+
+    application.get('io').emit('novoCliente', { apelido : dadosForm.apelido , mensagem : 'Entrou na sala'});
     
     res.render('chat');
 }
