@@ -107,9 +107,10 @@
 					<form>
 						<div class="col-md-12">
 							<div class="input-group">
-								<input type="text" class="form-control" placeholder="Mensagem">
+								<input type="text" class="form-control" id="texto" placeholder="Mensagem">
+								<input type="text" hidden id="apelido" value="<%= apelido %>"/>
 								<span class="input-group-btn">
-									<button class="btn btn-default" type="button">></button>
+									<button class="btn btn-default" id="enviar_mensagem" type="button">></button>
 								</span>
 							</div>
 						</div>
@@ -126,10 +127,29 @@
 			socket.on('novoCliente',function(data){
 				var div = `
 					<div class='dialogo'>
-						<p>${data.apelido} ${data.mensagem}</p>
+						<center><p>${data.apelido} ${data.mensagem}</p></center>
 					<div>
 				`
 				$('#dialogos').append(div);
+			});
+			socket.on('mensagens',function(data){
+				var div = `
+					<div class='${data.emitente == 1 ? 'dialogo' : 'dialogo2'}'>
+						<b>${data.data.apelido}</b>
+						<p class="float-right"> ${data.data.mensagem}</p>
+					<div>
+				`
+				$('#dialogos').append(div);
+			});			
+
+			$('#enviar_mensagem').click(function(e){
+
+				var mensagem = $('#texto').val();
+				var apelido = $('#apelido').val();
+				
+				socket.emit('mensagem', { apelido , mensagem });
+
+				$('#texto').val('');
 			})
 		</script>
 	</body>

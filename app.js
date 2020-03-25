@@ -18,7 +18,11 @@ io.on('connect',function(socket){
         console.log("Desconectado")
     })
 
-    socket.on('teste',function(test){
-        console.log(test);
+    socket.on('mensagem',function(data){
+        socket.emit('mensagens', {data : data , emitente : 1});
+    })
+
+    socket.broadcast.on('mensagem',function(data){
+        socket.emit('mensagens', {data : data , emitente : 0});
     })
 })

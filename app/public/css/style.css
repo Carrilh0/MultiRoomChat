@@ -98,3 +98,24 @@ img {
 	padding-left:15px;
 	color:#8B7777;
 }
+
+.dialogo2{
+	width:100%;
+	height:auto;
+	margin-bottom:15px;
+	padding:10px;
+	background:rgb(204, 255, 234);
+}
+
+.dialogo2 h4{
+	font-size:15px;
+	font-weight: bold;
+    color:#8B7777;
+}
+
+.dialogo2 p{
+	font-size:12px;
+	padding-left:15px;
+    color:#8B7777;
+
+}
