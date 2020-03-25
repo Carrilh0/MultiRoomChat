@@ -51,7 +51,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">Multiroom Chat</a>
+					<a class="navbar-brand" href="/">Multiroom Chat</a>
 				</div>
 				
 				
@@ -80,21 +80,8 @@
 			
 			<div class="row participantes" id="participantes" style="display:none">
 				<div class="col-md-1"></div>
-				<div class="col-md-10">
-					<span class="participante">
-						<img src="images/ico_usuario.png" />
-						Jorge
-					</span>
+				<div id="participantes_online" class="col-md-10">
 					
-					<span class="participante">
-						<img src="images/ico_usuario.png" />
-						José
-					</span>
-					
-					<span class="participante">
-						<img src="images/ico_usuario.png" />
-						Fernando
-					</span>
 				</div>
 				<div class="col-md-1"></div>
                 
@@ -109,6 +96,7 @@
 							<div class="input-group">
 								<input type="text" class="form-control" id="texto" placeholder="Mensagem">
 								<input type="text" hidden id="apelido" value="<%= apelido %>"/>
+								<input type="text" hidden id="apelido_atualizado" value="0"/>
 								<span class="input-group-btn">
 									<button class="btn btn-default" id="enviar_mensagem" type="button">></button>
 								</span>
@@ -132,9 +120,18 @@
 				`
 				$('#dialogos').append(div);
 			});
+			socket.on('participantes',function(data){
+				var div = `
+					<span class="participante">
+						<img src="images/ico_usuario.png" />
+						${data.data.apelido}
+					</span>
+				`
+				$('#participantes_online').append(div);
+			});			
 			socket.on('mensagens',function(data){
 				var div = `
-					<div class='${data.emitente == 1 ? 'dialogo' : 'dialogo2'}'>
+					<div class='${data.emitente == 1 ? 'dialogo2' : 'dialogo'}'>
 						<b>${data.data.apelido}</b>
 						<p class="float-right"> ${data.data.mensagem}</p>
 					<div>
@@ -146,10 +143,13 @@
 
 				var mensagem = $('#texto').val();
 				var apelido = $('#apelido').val();
+				var status = $('#apelido_atualizado').val();
 				
-				socket.emit('mensagem', { apelido , mensagem });
+				socket.emit('mensagem', { apelido , mensagem, status });
 
 				$('#texto').val('');
+				var status = $('#apelido_atualizado').val(1);
+
 			})
 		</script>
 	</body>

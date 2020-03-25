@@ -20,9 +20,14 @@ io.on('connect',function(socket){
 
     socket.on('mensagem',function(data){
         socket.emit('mensagens', {data : data , emitente : 1});
-    })
 
-    socket.broadcast.on('mensagem',function(data){
-        socket.emit('mensagens', {data : data , emitente : 0});
+        socket.broadcast.emit('mensagens', {data : data , emitente : 0});
+        
+        //Participantes
+        if (parseInt(data.status) == 0){
+            socket.emit('participantes', {data : data});
+
+            socket.broadcast.emit('participantes', {data : data});
+        }
     })
 })
