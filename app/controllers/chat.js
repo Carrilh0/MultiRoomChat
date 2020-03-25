@@ -2,7 +2,7 @@ module.exports.iniciaChat = function(application,req,res){
     
     var dadosForm = (req.body);
 
-    req.assert('apelido',"O apleido é obrigatório!").notEmpty();
+    req.assert('apelido',"O apelido é obrigatório!").notEmpty();
 
     var erros = req.validationErrors();
 
